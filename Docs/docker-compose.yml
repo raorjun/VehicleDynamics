@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: bobdyn-nginx
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx_site:/etc/nginx/conf.d
+
+      # IMPORTANT: Vue uses dist/
+      - ./BobDyn/Docs/dist:/usr/share/nginx/html
+
+    restart: always
