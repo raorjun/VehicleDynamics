@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# BobDyn Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+VitePress-based documentation site for BobDyn vehicle dynamics framework.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **VitePress** - Documentation-focused static site generator
+- **KaTeX** - Fast math rendering (10-100x faster than MathJax)
+- **Vue 3** - VitePress framework
+- **Markdown** - Content authoring
 
-## React Compiler
+## Design
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+GNOME Nautilus-inspired dark theme with:
+- System font stack
+- 75ch max text width for readability
+- Sticky navigation with Bob logo
+- Clean, minimal interface
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# Start dev server
+npm run dev
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Build for production
+npm run build
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Preview production build
+npm run preview
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Deploy to GitHub Pages
+npm run deploy
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+Docs/
+├── .vitepress/
+│   ├── config.ts           # Site configuration
+│   └── theme/
+│       ├── index.ts        # Theme entry point
+│       └── style.css       # GNOME Nautilus theme
+├── docs/
+│   ├── index.md            # Home page
+│   ├── metrics.md          # Vehicle performance metrics
+│   └── public/
+│       ├── bob.png         # Logo
+│       └── CNAME           # GitHub Pages domain
+└── package.json
+```
+
+## Content Editing
+
+All content is written in Markdown:
+
+- **docs/index.md** - Home page content
+- **docs/metrics.md** - Metrics reference with math equations
+
+### Math Equations
+
+Use KaTeX syntax:
+
+```markdown
+Inline math: $a_y = \frac{v^2}{R}$
+
+Display math:
+$$
+K = \frac{\partial \delta}{\partial a_y}
+$$
+```
+
+### Custom Styling
+
+Use HTML classes for special styling:
+
+```markdown
+<p class="section-intro">
+Introductory text with muted color
+</p>
+
+<p class="closing-note">
+Closing note with extra spacing
+</p>
+```
+
+## Deployment
+
+Site deploys to GitHub Pages at **bobdyn.com** via:
+
+```bash
+npm run deploy
+```
+
+This builds the site and pushes to the `gh-pages` branch.
+
+## Features
+
+- ✅ Dark mode only (no light mode toggle)
+- ✅ Fast math rendering with KaTeX
+- ✅ Clean navigation with Bob logo
+- ✅ Responsive design
+- ✅ Text width constraints for readability
+- ✅ Sticky header
+- ✅ No VitePress branding or extras
