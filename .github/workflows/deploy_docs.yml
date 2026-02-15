@@ -1,0 +1,25 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy site
+        run: |
+          docker compose down
+          docker compose up -d --build
