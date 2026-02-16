@@ -6,6 +6,8 @@ This repository provides a modular, physically grounded vehicle modeling
 library for suspension, tire, chassis, and full-vehicle simulation, with
 an emphasis on correctness, reproducibility, and FMU export.
 
+Documentation is published at bobdyn.com and updated continuously.
+
 ---
 
 ## Overview
@@ -31,6 +33,7 @@ files to ensure deterministic behavior and FMU portability.
 ├── out.txt
 ├── README.md
 ├── requirements.txt
+├── Docs/
 ├── Tools/
 └── BobDynamics/
     ├── package.mo
@@ -60,6 +63,14 @@ files to ensure deterministic behavior and FMU portability.
     ├── TestVehicle/
     └── package.mo
 ```
+
+---
+
+## Documentation
+
+The VitePress documentation site lives in `Docs/` and is published at
+bobdyn.com. The website is the reference and will continue
+to be updated.
 
 ---
 
