@@ -13,12 +13,12 @@ jobs:
       - name: Checkout into nginx-served folder
         uses: actions/checkout@v4
         with:
-          path: C:/server/BobDyn
+          path: C:/bobdyn_docs/BobDyn
 
       - name: Install dependencies
-        working-directory: C:/server/BobDyn/Docs
+        working-directory: C:/bobdyn_docs/BobDyn/Docs
         run: npm ci
 
       - name: Build site
-        working-directory: C:/server/BobDyn/Docs
+        working-directory: C:/bobdyn_docs/BobDyn/Docs
         run: npm run build
