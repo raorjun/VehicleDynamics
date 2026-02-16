@@ -5,7 +5,7 @@ VitePress-based documentation site for BobDyn vehicle dynamics framework.
 ## Tech Stack
 
 - **VitePress** - Documentation-focused static site generator
-- **KaTeX** - Fast math rendering (10-100x faster than MathJax)
+- **KaTeX** - Fast math rendering
 - **Vue 3** - VitePress framework
 - **Markdown** - Content authoring
 
@@ -28,27 +28,20 @@ npm run build
 
 # Preview production build
 npm run preview
-
-# Deploy to GitHub Pages
-npm run deploy
 ```
 
 ## Project Structure
 
 ```
 Docs/
-├── .vitepress/
-│   ├── config.ts           # Site configuration
-│   └── theme/
-│       ├── index.ts        # Theme entry point
-│       └── style.css       # GNOME Nautilus theme
 ├── docs/
 │   ├── index.md            # Home page
 │   ├── metrics.md          # Vehicle performance metrics
+│   ├── vision.md           # Vision and roadmap
 │   └── public/
-│       ├── bob.png         # Logo
-│       └── CNAME           # GitHub Pages domain
-└── package.json
+│       └── CNAME           # Page domain
+├── package.json
+└── README.md
 ```
 
 ## Content Editing
@@ -57,6 +50,7 @@ All content is written in Markdown:
 
 - **docs/index.md** - Home page content
 - **docs/metrics.md** - Metrics reference with math equations
+- **docs/vision.md** - Vision and roadmap
 
 ### Math Equations
 
@@ -85,22 +79,3 @@ Closing note with extra spacing
 </p>
 ```
 
-## Deployment
-
-Site deploys to GitHub Pages at **bobdyn.com** via:
-
-```bash
-npm run deploy
-```
-
-This builds the site and pushes to the `gh-pages` branch.
-
-## Features
-
-- ✅ Dark mode only (no light mode toggle)
-- ✅ Fast math rendering with KaTeX
-- ✅ Clean navigation with Bob logo
-- ✅ Responsive design
-- ✅ Text width constraints for readability
-- ✅ Sticky header
-- ✅ No VitePress branding or extras
