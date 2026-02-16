@@ -10,15 +10,17 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout into nginx-served folder
+      - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          path: C:/bobdyn_docs/BobDyn
 
       - name: Install dependencies
-        working-directory: C:/bobdyn_docs/BobDyn/Docs
+        working-directory: Docs
         run: npm ci
 
       - name: Build site
-        working-directory: C:/bobdyn_docs/BobDyn/Docs
+        working-directory: Docs
         run: npm run build
+
+      - name: Deploy to nginx-served folder
+        run: |
+          robocopy Docs\.vitepress\dist C:\bobdyn_docs\BobDyn\Docs\dist /MIR
