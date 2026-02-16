@@ -3,20 +3,22 @@ name: Deploy Website
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: self-hosted
 
-    defaults:
-      run:
-        working-directory: Docs
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout into nginx-served folder
+        uses: actions/checkout@v4
+        with:
+          path: C:/server/BobDyn
 
       - name: Install dependencies
+        working-directory: C:/server/BobDyn/Docs
         run: npm ci
 
       - name: Build site
+        working-directory: C:/server/BobDyn/Docs
         run: npm run build
