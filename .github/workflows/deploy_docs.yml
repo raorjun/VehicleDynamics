@@ -19,4 +19,6 @@ jobs:
         run: npm run build
 
       - working-directory: Docs
-        run: robocopy docs\.vitepress\dist C:\bobdyn_docs\BobDyn\Docs\dist /MIR
+        run: |
+          robocopy docs\.vitepress\dist C:\bobdyn_docs\BobDyn\Docs\dist /MIR
+          if ($LASTEXITCODE -le 7) { exit 0 } else { exit $LASTEXITCODE }
