@@ -50,7 +50,10 @@ html, html.dark { color-scheme: dark; }
 }
 
 /* --- Sidebar --- */
-.VPSidebar { background: var(--vp-c-bg) !important; }
+.VPSidebar {
+  background: #151a22 !important;
+  border-right: 1px solid var(--vp-c-divider);
+}
 
 
 /* --- Nav layout: keep search pinned right --- */
