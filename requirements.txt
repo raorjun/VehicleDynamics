@@ -20,9 +20,7 @@ pillow>=10.0        # image handling backend for matplotlib
 tqdm>=4.66          # progress bars (useful for fitting / extraction)
 
 # ------------------------------------------------------------------------------
-# Development / quality of life (optional)
+# FMPy
 # ------------------------------------------------------------------------------
 
-ipython>=8.12
-joblib
-cupy
+fmpy
