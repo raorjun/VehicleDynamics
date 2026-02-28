@@ -1,12 +1,11 @@
 ---
 layout: doc
-title: Docs
+title: Reference
 ---
 
-# Docs
+# Reference
 
-Technical reference for BobDyn — definitions, theory, and methodology behind the solver and its
-outputs.
+Definitions, theory, and methodology behind BobSim and its outputs.
 
-- [Performance Metrics](/reference/metrics) - definitions and equations for all solver output metrics across
-  steady-state, transient, stability, and frequency domains
+- [Performance Metrics](/reference/metrics) - definitions and equations for all solver output metrics across steady-state, transient, stability, and frequency domains
+- [Control Theory](/reference/control-theory) - feedback control fundamentals: bang-bang, PID, feedforward

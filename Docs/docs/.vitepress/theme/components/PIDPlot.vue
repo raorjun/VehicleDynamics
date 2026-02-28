@@ -15,8 +15,7 @@ const COLORS = {
   grid: '#242a38',
 }
 
-// Simulates a second-order plant: ẍ + 2ζω_n ẋ + ω_n² x = u
-// with PID control: u = Kp·e + Ki·∫e dt + Kd·(de/dt)
+
 function simulate(kp, ki, kd) {
   const dt = 0.04, T = 20, omega_n = 1.0, zeta = 0.05
   const N = Math.floor(T / dt)
@@ -152,14 +151,13 @@ watch([Kp, Ki, Kd], updateChart)
 }
 .label-text {
   font-size: 0.85rem;
-  color: #c9cdd4;
+  color: var(--vp-c-text-2);
   min-width: 72px;
-  font-family: monospace;
+  font-family: var(--vp-font-family-mono, monospace);
 }
 input[type="range"] {
   flex: 1;
-  max-width: 280px;
-  accent-color: #4ea1ff;
+  accent-color: var(--vp-c-brand-1);
   cursor: pointer;
 }
 .chart-area {
@@ -168,7 +166,11 @@ input[type="range"] {
 }
 .hint {
   font-size: 0.8rem;
-  color: #7f8796;
+  color: var(--vp-c-text-3);
   margin-top: 0.5rem;
+}
+@media (max-width: 640px) {
+  .chart-area { height: 200px; }
+  .label-text { min-width: 60px; }
 }
 </style>

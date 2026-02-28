@@ -5,7 +5,7 @@ title: Control Theory
 
 # Control Theory
 
-In vehicle modeling, we don't just care about how a vehicle moves — we care about how to make it move the way we want. Control theory is the mathematical framework used to regulate the behavior of dynamic systems to reach a desired state.
+In vehicle modeling, we don't just care about how a vehicle moves. We care about how to make it move the way we want. Control theory is the mathematical framework used to regulate the behavior of dynamic systems to reach a desired state.
 
 ## Open-Loop vs. Closed-Loop
 
@@ -15,9 +15,15 @@ The most fundamental distinction in control is whether or not the system "looks"
 
 The controller sends a command based on a preset map or timer without checking the actual result.
 
-- **Drone example.** You tell the motors to spin at 5,000 RPM. If a gust of wind pushes the drone down, the controller does nothing — it doesn't know the altitude changed.
 - **Pros.** Simple, requires no sensors.
 - **Cons.** Cannot account for disturbances or changes in the environment.
+
+```python
+# Open-loop drone: fixed motor command, no feedback
+motor_throttle = 50  # % - set once and never adjusted
+
+# A gust hits and drops the drone - we never know, never react
+```
 
 ### Closed-Loop (Feedback) Control
 
@@ -27,13 +33,34 @@ $$e(t) = r(t) - y(t)$$
 
 The control signal is then a function of this error. Every controller discussed below is a closed-loop controller.
 
+```python
+# Closed-loop drone: measure, compare, react
+setpoint = 10.0                    # desired altitude (m)
+altitude = read_barometer()        # actual altitude (m)
+error    = setpoint - altitude     # how far off are we?
+
+motor_throttle = some_controller(error)
+```
+
 ## Bang-Bang Control
 
 The simplest form of feedback. The controller has only two states: **full on** or **full off**.
 
 $$u(t) = \begin{cases} U_{\max} & \text{if } e(t) > 0 \\ -U_{\max} & \text{if } e(t) < 0 \end{cases}$$
 
-If the error is positive, drive the actuator to max. If negative, drive it to min. The result is constant oscillation around the setpoint — this is called **chatter**.
+If the error is positive, drive the actuator to max. If negative, drive it to min. The result is constant oscillation around the setpoint, called **chatter**.
+
+```python
+MOTOR_MAX =  100  # % throttle
+MOTOR_MIN = -100
+
+def bang_bang(setpoint, altitude):
+    error = setpoint - altitude
+    return MOTOR_MAX if error > 0 else MOTOR_MIN
+
+# The drone will blast to full throttle, overshoot 10 m,
+# cut to zero, fall back below 10 m, repeat forever.
+```
 
 <ClientOnly>
   <BangBangPlot />
@@ -53,6 +80,25 @@ $$u(t) = K_p\, e(t) + K_i \int_0^t e(\tau)\, d\tau + K_d\, \frac{de(t)}{dt}$$
 | $K_i$ | Integral | Accumulates **past** error. Eliminates steady-state offset, but can cause windup and overshoot. |
 | $K_d$ | Derivative | Reacts to the **rate of change** of error. Damps oscillation and prevents overshoot. |
 
+```python
+class PID:
+    def __init__(self, Kp, Ki, Kd, dt):
+        self.Kp, self.Ki, self.Kd, self.dt = Kp, Ki, Kd, dt
+        self.integral  = 0.0
+        self.prev_error = 0.0
+
+    def update(self, setpoint, measurement):
+        error            = setpoint - measurement
+        self.integral   += error * self.dt
+        derivative       = (error - self.prev_error) / self.dt
+        self.prev_error  = error
+        return self.Kp * error + self.Ki * self.integral + self.Kd * derivative
+
+# Drone altitude hold
+pid      = PID(Kp=8, Ki=2, Kd=4, dt=0.02)
+throttle = pid.update(setpoint=10.0, measurement=read_barometer())
+```
+
 <ClientOnly>
   <PIDPlot />
 </ClientOnly>
@@ -71,35 +117,20 @@ $$u(t) = u_{\text{ff}}(t) + u_{\text{fb}}(t)$$
 
 Where $u_{\text{ff}}$ is computed from a model of the plant (e.g., gravity compensation for a drone) and $u_{\text{fb}}$ is the PID feedback term.
 
-**The benefit.** The feedback loop only has to handle disturbances and model error — the feedforward handles the predictable, steady-state load. This reduces the demands on PID gains and allows tighter tuning.
+**The benefit.** The feedback loop only handles disturbances and model error. The feedforward handles the predictable, steady-state load. This reduces the demands on PID gains and allows tighter tuning.
+
+```python
+MASS    = 1.2   # kg
+GRAVITY = 9.81  # m/s²
+
+def feedforward(mass, gravity):
+    # Thrust to exactly cancel gravity - no error needed to compute this
+    return mass * gravity
+
+def total_control(setpoint, altitude):
+    u_ff = feedforward(MASS, GRAVITY)      # physics-based prediction
+    u_fb = pid.update(setpoint, altitude)  # PID handles the rest
+    return u_ff + u_fb
+```
 
 In vehicle dynamics, feedforward is used for steering angle prediction, throttle mapping, and active suspension load estimation.
-
-## State-Space Representation
-
-For systems that need to regulate multiple coupled outputs simultaneously — altitude, pitch, roll, and yaw on a drone — independent PID loops start to interfere with each other. State-space treats the entire system state as a single vector and applies control to all states at once.
-
-The system is described by two matrix equations:
-
-$$\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}$$
-$$\mathbf{y} = \mathbf{C}\mathbf{x} + \mathbf{D}\mathbf{u}$$
-
-| Symbol | Meaning |
-| :--- | :--- |
-| $\mathbf{x}$ | State vector (e.g., $[\text{position},\ \text{velocity},\ \text{angle}]^\top$) |
-| $\mathbf{A}$ | System matrix — how states evolve naturally from physics |
-| $\mathbf{B}$ | Input matrix — how control inputs affect each state |
-| $\mathbf{C}$ | Output matrix — which states are observable |
-| $\mathbf{D}$ | Feedthrough matrix — direct input-to-output coupling (often zero) |
-
-### LQR
-
-**Linear Quadratic Regulator (LQR)** is an optimal controller derived from the state-space model. It computes a gain matrix $\mathbf{K}$ such that the control law:
-
-$$\mathbf{u} = -\mathbf{K}\mathbf{x}$$
-
-minimizes a cost function that trades off state error against control effort:
-
-$$J = \int_0^\infty \left( \mathbf{x}^\top \mathbf{Q}\, \mathbf{x} + \mathbf{u}^\top \mathbf{R}\, \mathbf{u} \right) dt$$
-
-The $\mathbf{Q}$ matrix penalizes state error; $\mathbf{R}$ penalizes control effort. Tuning LQR is a matter of choosing these weight matrices rather than individual scalar gains.

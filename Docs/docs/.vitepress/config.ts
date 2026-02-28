@@ -15,26 +15,26 @@ export default defineConfig({
     siteTitle: 'Bob Dynamics',
 
     nav: [
-      { text: 'BobSim', link: '/workflows/' },
+      { text: 'BobSim', link: '/bobsim/' },
       { text: 'Reference', link: '/reference/' },
       // Add new top-nav entries here
     ],
 
     sidebar: {
-      // BobSim pages — only show solver nav
-      '/workflows/': [
+      // BobSim pages - only show solver nav
+      '/bobsim/': [
         {
           text: 'BobSim',
           collapsed: false,
           items: [
-            { text: 'Overview', link: '/workflows/' },
-            { text: 'Characterization', link: '/workflows/characterization' },
-            { text: 'Design of Experiments', link: '/workflows/doe' },
+            { text: 'Overview', link: '/bobsim/' },
+            { text: 'Characterization', link: '/bobsim/characterization' },
+            { text: 'Design of Experiments', link: '/bobsim/doe' },
           ]
         },
       ],
 
-      // Reference pages — only show reference nav
+      // Reference pages - only show reference nav
       '/reference/': [
         {
           text: 'Reference',
@@ -54,14 +54,15 @@ export default defineConfig({
             { text: 'Frequency-Domain', link: '/reference/metrics#frequency-domain-metrics' },
           ]
         },
-
         {
           text: 'Control Theory',
           collapsed: false,
           link: '/reference/control-theory',
           items: [
-            // Add headings here as you write them, e.g.:
-            // { text: 'PID Control', link: '/reference/control-theory#pid-control' },
+            { text: 'Open-Loop vs. Closed-Loop', link: '/reference/control-theory#open-loop-vs-closed-loop' },
+            { text: 'Bang-Bang Control', link: '/reference/control-theory#bang-bang-control' },
+            { text: 'PID Control', link: '/reference/control-theory#pid-control' },
+            { text: 'Feedforward Control', link: '/reference/control-theory#feedforward-control' },
           ]
         },
       ],

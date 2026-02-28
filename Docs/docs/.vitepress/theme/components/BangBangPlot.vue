@@ -153,21 +153,25 @@ onUnmounted(() => {
 .plot-btn {
   padding: 0.3rem 0.9rem;
   border-radius: 4px;
-  border: 1px solid #4ea1ff;
+  border: 1px solid var(--vp-c-brand-1);
   background: transparent;
-  color: #4ea1ff;
+  color: var(--vp-c-brand-1);
   cursor: pointer;
   font-size: 0.85rem;
+  font-family: inherit;
   transition: background 0.15s;
 }
-.plot-btn:hover { background: rgba(78, 161, 255, 0.1); }
+.plot-btn:hover { background: var(--vp-c-brand-soft); }
 .plot-btn-muted {
-  border-color: #7f8796;
-  color: #7f8796;
+  border-color: var(--vp-c-text-3);
+  color: var(--vp-c-text-3);
 }
-.plot-btn-muted:hover { background: rgba(127, 135, 150, 0.1); }
+.plot-btn-muted:hover { background: var(--vp-c-bg-soft); }
 .chart-area {
   position: relative;
   height: 280px;
+}
+@media (max-width: 640px) {
+  .chart-area { height: 200px; }
 }
 </style>
