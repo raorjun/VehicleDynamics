@@ -15,16 +15,16 @@ export default defineConfig({
     siteTitle: 'Bob Dynamics',
 
     nav: [
-      { text: 'Solver', link: '/workflows/' },
+      { text: 'BobSim', link: '/workflows/' },
       { text: 'Reference', link: '/reference/' },
       // Add new top-nav entries here
     ],
 
     sidebar: {
-      // Solver pages — only show solver nav
+      // BobSim pages — only show solver nav
       '/workflows/': [
         {
-          text: 'Solver',
+          text: 'BobSim',
           collapsed: false,
           items: [
             { text: 'Overview', link: '/workflows/' },
@@ -55,17 +55,15 @@ export default defineConfig({
           ]
         },
 
-        // ---------------------------------------------------------------
-        // ADD CONTROL THEORY SECTION HERE
-        // {
-        //   text: 'Control Theory',
-        //   collapsed: false,
-        //   link: '/reference/control-theory',
-        //   items: [
-        //     { text: 'Some Heading', link: '/reference/control-theory#some-heading' },
-        //   ]
-        // },
-        // ---------------------------------------------------------------
+        {
+          text: 'Control Theory',
+          collapsed: false,
+          link: '/reference/control-theory',
+          items: [
+            // Add headings here as you write them, e.g.:
+            // { text: 'PID Control', link: '/reference/control-theory#pid-control' },
+          ]
+        },
       ],
     },
 
