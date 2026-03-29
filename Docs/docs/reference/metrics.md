@@ -98,6 +98,8 @@ the edge of grip or transitions abruptly into loss of control.
 Metrics describing time-domain response to steering inputs.
 </p>
 
+Natural frequency and roll stiffness are interdependent physical requirements for transient response. Higher natural frequency reduces settling time after steering input; higher roll stiffness eliminates body lean lag and allows tires to reach peak grip immediately. These values must be optimized together, they are not independent tuning goals but necessary outcomes of optimizing for faster, more stable transient response.
+
 ### Yaw Rate Gain
 
 **Description.** The ratio between vehicle yaw rate and steering input under steady or low-frequency
